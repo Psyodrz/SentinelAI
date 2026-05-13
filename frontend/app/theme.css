@@ -1,0 +1,161 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Barlow+Condensed:wght@300;400;600;700;800&family=DM+Sans:wght@400;500;700&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base Theme: DARK (Default) */
+:root {
+  --bg: #060810;
+  --bg-gradient: linear-gradient(180deg, #0d1117 0%, #060810 100%);
+  --surface: #0d1117;
+  --surface-gradient: linear-gradient(145deg, rgba(20,25,35,0.8) 0%, rgba(10,12,18,0.9) 100%);
+  --surface2: #131920;
+  --surface3: rgba(255, 255, 255, 0.02);
+  --border: #1c2535;
+  --border-light: rgba(255, 255, 255, 0.05);
+  
+  --accent: #00e5ff;
+  --accent-glow: rgba(0, 229, 255, 0.15);
+  --accent-faint: rgba(0, 229, 255, 0.05);
+  
+  --safe: #00e676;
+  --safe-glow: rgba(0, 230, 118, 0.15);
+  --safe-faint: rgba(0, 230, 118, 0.05);
+  
+  --warn: #ffaa00;
+  --warn-glow: rgba(255, 170, 0, 0.15);
+  --warn-faint: rgba(255, 170, 0, 0.05);
+  
+  --danger: #ff3b3b;
+  --danger-glow: rgba(255, 59, 59, 0.15);
+  --danger-faint: rgba(255, 59, 59, 0.05);
+  
+  --text: #dde4f0;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --muted: #4a5568;
+  
+  --glass-white: rgba(255, 255, 255, 0.03);
+  --glass-black: rgba(0, 0, 0, 0.5);
+  --terminal-bg: #040508;
+  --terminal-text: #dde4f0;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Base Theme: LIGHT */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f3f6fa;
+    --bg-gradient: linear-gradient(180deg, #f8fafd 0%, #eef2f7 100%);
+    --surface: #ffffff;
+    --surface-gradient: linear-gradient(145deg, #ffffff 0%, #f4f7fb 100%);
+    --surface2: #f8fafc;
+    --surface3: rgba(0, 0, 0, 0.02);
+    --border: #e2e8f0;
+    --border-light: rgba(0, 0, 0, 0.05);
+    
+    --accent: #0284c7; 
+    --accent-glow: rgba(2, 132, 199, 0.15);
+    --accent-faint: rgba(2, 132, 199, 0.05);
+    
+    --safe: #10b981;
+    --safe-glow: rgba(16, 185, 129, 0.15);
+    --safe-faint: rgba(16, 185, 129, 0.05);
+    
+    --warn: #f59e0b;
+    --warn-glow: rgba(245, 158, 11, 0.15);
+    --warn-faint: rgba(245, 158, 11, 0.05);
+    
+    --danger: #ef4444;
+    --danger-glow: rgba(239, 68, 68, 0.15);
+    --danger-faint: rgba(239, 68, 68, 0.05);
+    
+    --text: #0f172a;
+    --text-secondary: rgba(15, 23, 42, 0.7);
+    --muted: #64748b;
+    
+    --glass-white: rgba(0, 0, 0, 0.03);
+    --glass-black: rgba(255, 255, 255, 0.8);
+    --terminal-bg: #1e293b;
+    --terminal-text: #f8fafc;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+}
+
+body {
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+  min-height: 100vh;
+}
+
+/* GENERAL UTILITIES */
+.card-glass {
+  background: var(--surface-gradient);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--accent), #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+/* Replace hardcoded Hero styles */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 24px;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  filter: blur(80px);
+  pointer-events: none;
+  animation: pulseGlow 8s infinite alternate;
+}
+
+/* Add more UI components from globals... */

@@ -1,0 +1,642 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Barlow+Condensed:wght@300;400;600;700;800&family=DM+Sans:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060810;--surface:#0d1117;--surface2:#131920;--border:#1c2535;
+  --accent:#00e5ff;--safe:#00e676;--warn:#ffaa00;--danger:#ff3b3b;
+  --text:#dde4f0;--muted:#4a5568;--faint:#1a2235;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(6,8,16,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 40px;height:56px;gap:12px}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:2px}
+.nav-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px}
+.nav-links{display:flex;gap:24px;margin-left:auto}
+.nav-link{font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--muted);cursor:pointer;letter-spacing:1px;transition:color .2s}
+.nav-link:hover{color:var(--accent)}
+.dot-live{width:7px;height:7px;border-radius:50%;background:var(--safe);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,0.5)}50%{box-shadow:0 0 0 6px rgba(0,230,118,0)}}
+
+/* HERO */
+.hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 40px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;opacity:0.04;background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);background-size:60px 60px}
+.hero-glow{position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(0,229,255,0.06) 0%,transparent 70%);pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid rgba(0,229,255,0.3);border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px;margin-bottom:28px}
+.hero-h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(52px,10vw,96px);font-weight:800;line-height:0.95;letter-spacing:-1px;margin-bottom:8px}
+.hero-h1 span{color:var(--accent)}
+.hero-sub{font-size:16px;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:40px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:60px}
+.btn-primary{padding:12px 28px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .2s}
+.btn-primary:hover{background:#33eaff;transform:translateY(-1px)}
+.btn-ghost{padding:12px 28px;background:transparent;color:var(--accent);border:1px solid rgba(0,229,255,0.4);border-radius:7px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .2s}
+.btn-ghost:hover{background:rgba(0,229,255,0.07)}
+.hero-stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600;color:var(--accent)}
+.stat-label{font-size:12px;color:var(--muted);letter-spacing:1px;margin-top:4px}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.scroll-line{width:1px;height:32px;background:linear-gradient(var(--accent),transparent)}
+
+/* SECTION COMMON */
+.section{padding:80px 40px;max-width:900px;margin:0 auto}
+.section-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:3px;margin-bottom:12px}
+.section-h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.1;margin-bottom:16px}
+.section-desc{font-size:15px;color:var(--muted);line-height:1.7;max-width:560px}
+.divider{width:100%;height:1px;background:var(--border);max-width:900px;margin:0 auto}
+
+/* HOW IT WORKS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:48px}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;position:relative;overflow:hidden;transition:border-color .3s}
+.step-card:hover{border-color:rgba(0,229,255,0.3)}
+.step-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px;margin-bottom:12px}
+.step-icon{width:40px;height:40px;border-radius:8px;background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.step-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:600;margin-bottom:8px}
+.step-text{font-size:13px;color:var(--muted);line-height:1.6}
+.step-accent{position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent)}
+
+/* AGENT PIPELINE */
+.pipeline-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px;margin-top:48px}
+.pipeline{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:8px}
+.p-node{flex:1;min-width:140px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.p-node:not(:last-child)::after{content:'';position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:10px solid var(--border);z-index:2}
+.p-icon{width:48px;height:48px;border-radius:50%;border:2px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:center;margin-bottom:12px;transition:all .4s}
+.p-node.lit .p-icon{border-color:var(--accent);background:rgba(0,229,255,0.1);box-shadow:0 0 16px rgba(0,229,255,0.2)}
+.p-node.done .p-icon{border-color:var(--safe);background:rgba(0,230,118,0.08)}
+.p-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;line-height:1.5;transition:color .4s}
+.p-node.lit .p-label{color:var(--accent)}
+.p-node.done .p-label{color:var(--safe)}
+.pipe-demo-btn{margin-top:20px;padding:10px 24px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;transition:all .2s;display:block;margin-left:auto;margin-right:auto}
+.pipe-demo-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* THREAT TYPES */
+.threat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:48px}
+.threat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;display:flex;gap:16px;transition:border-color .3s}
+.threat-card:hover{border-color:rgba(255,59,59,0.3)}
+.threat-icon{width:44px;height:44px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ti-red{background:rgba(255,59,59,0.1);border:1px solid rgba(255,59,59,0.2)}
+.ti-warn{background:rgba(255,170,0,0.1);border:1px solid rgba(255,170,0,0.2)}
+.ti-blue{background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.2)}
+.threat-name{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:600;margin-bottom:6px}
+.threat-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* ANALYZER */
+.analyzer-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:48px}
+.analyzer-header{padding:16px 24px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.traffic-dots{display:flex;gap:6px}
+.td{width:12px;height:12px;border-radius:50%}
+.td-r{background:#ff5f57}.td-y{background:#ffbd2e}.td-g{background:#28ca42}
+.analyzer-title{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-left:6px}
+.analyzer-body{padding:24px}
+.mode-row{display:flex;gap:8px;margin-bottom:16px}
+.mtab{padding:6px 18px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-family:'IBM Plex Mono',monospace;cursor:pointer;transition:all .2s}
+.mtab.on{border-color:var(--accent);color:var(--accent);background:rgba(0,229,255,0.07)}
+.ainput{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;resize:vertical;min-height:90px;outline:none;transition:border .2s;line-height:1.6}
+.ainput:focus{border-color:var(--accent)}
+.ainput::placeholder{color:var(--muted)}
+.scan-row{display:flex;gap:10px;margin-top:12px}
+.scan-btn{flex:1;padding:13px;background:rgba(0,229,255,0.08);border:1px solid var(--accent);border-radius:8px;color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .2s}
+.scan-btn:hover{background:rgba(0,229,255,0.14)}
+.scan-btn:disabled{opacity:.4;cursor:not-allowed}
+.clear-btn{padding:13px 18px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer;transition:all .2s}
+.clear-btn:hover{border-color:var(--danger);color:var(--danger)}
+
+/* AGENT MINI */
+.agent-mini{display:flex;flex-direction:column;gap:4px;margin:20px 0}
+.am-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);transition:all .3s}
+.am-row.alit{border-color:rgba(0,229,255,0.5);background:rgba(0,229,255,0.05)}
+.am-row.adone{border-color:rgba(0,230,118,0.3);background:rgba(0,230,118,0.04)}
+.am-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:all .3s}
+.am-row.alit .am-dot{background:var(--accent);box-shadow:0 0 6px var(--accent)}
+.am-row.adone .am-dot{background:var(--safe)}
+.am-name{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);flex:1;transition:color .3s}
+.am-row.alit .am-name{color:var(--accent)}
+.am-row.adone .am-name{color:var(--safe)}
+.am-st{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted)}
+.am-row.alit .am-st{color:var(--accent)}
+.am-row.adone .am-st{color:var(--safe)}
+.am-conn{width:1px;height:10px;background:var(--border);margin-left:17px}
+
+/* RESULTS */
+.results-grid{display:grid;grid-template-columns:200px 1fr;gap:16px;margin-top:16px}
+@media(max-width:600px){.results-grid{grid-template-columns:1fr}}
+.score-col{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:var(--surface2);border-radius:10px;padding:20px;border:1px solid var(--border)}
+.score-big{font-family:'IBM Plex Mono',monospace;font-size:48px;font-weight:600;line-height:1}
+.score-denom{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted)}
+.rbadge{padding:5px 14px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px}
+.rb-safe{background:rgba(0,230,118,0.1);color:var(--safe);border:1px solid rgba(0,230,118,0.3)}
+.rb-warn{background:rgba(255,170,0,0.1);color:var(--warn);border:1px solid rgba(255,170,0,0.3)}
+.rb-high{background:rgba(255,59,59,0.1);color:var(--danger);border:1px solid rgba(255,59,59,0.3)}
+.detail-col{display:flex;flex-direction:column;gap:10px}
+.detail-section{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.r-card{padding:10px 14px;border-radius:7px;border-left:3px solid var(--warn);background:rgba(255,170,0,0.04);font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px}
+.r-card.rh{border-left-color:var(--danger);background:rgba(255,59,59,0.04)}
+.r-card.rs{border-left-color:var(--safe);background:rgba(0,230,118,0.04)}
+.rec-card{padding:10px 14px;border-radius:7px;background:var(--surface2);border:1px solid var(--border);font-size:13px;color:var(--text);display:flex;align-items:center;gap:10px}
+.rec-avoid{color:var(--danger)}
+.rec-do{color:var(--safe)}
+.error-box{padding:12px;background:rgba(255,59,59,0.07);border:1px solid rgba(255,59,59,0.25);border-radius:7px;color:var(--danger);font-size:12px;font-family:'IBM Plex Mono',monospace}
+.empty-ana{text-align:center;padding:32px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1px;border:1px dashed var(--border);border-radius:8px;margin-top:16px}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:48px}
+.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;transition:all .3s}
+.feat-card:hover{border-color:rgba(0,229,255,0.2);transform:translateY(-2px)}
+.feat-icon{margin-bottom:14px}
+.feat-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:600;margin-bottom:8px}
+.feat-text{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* SCORE METER BAR */
+.meter-bar{width:100%;height:6px;background:var(--border);border-radius:3px;margin-top:8px;overflow:hidden}
+.meter-fill{height:100%;border-radius:3px;transition:width 1s ease}
+
+/* CTA */
+.cta-section{padding:80px 40px;text-align:center;position:relative;overflow:hidden}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(0,229,255,0.05) 0%,transparent 70%);pointer-events:none}
+.cta-h{font-family:'Barlow Condensed',sans-serif;font-size:clamp(36px,6vw,64px);font-weight:800;margin-bottom:16px}
+.cta-sub{color:var(--muted);font-size:15px;margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding:24px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:gap}
+.foot-logo{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--muted)}
+.foot-copy{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px}
+
+/* LOADING DOTS */
+.ldots{display:flex;gap:4px;align-items:center}
+.ldots span{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:blink 1.2s infinite}
+.ldots span:nth-child(2){animation-delay:.2s}
+.ldots span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+</style>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+      <path d="M16 3L5 8v8c0 6.6 4.7 12.8 11 14 6.3-1.2 11-7.4 11-14V8L16 3z" stroke="#00e5ff" stroke-width="1.5" fill="rgba(0,229,255,0.08)"/>
+      <path d="M12 16l3 3 5-6" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <div class="nav-title">SENTINELAI</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <span class="nav-link" onclick="scrollTo('how')">HOW IT WORKS</span>
+    <span class="nav-link" onclick="scrollTo('threats')">THREATS</span>
+    <span class="nav-link" onclick="scrollTo('analyzer')">ANALYZER</span>
+    <span class="nav-link" onclick="scrollTo('features')">FEATURES</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-left:24px">
+    <div class="dot-live"></div>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--safe);letter-spacing:1px">LIVE</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">
+    <div style="width:6px;height:6px;border-radius:50%;background:var(--accent)"></div>
+    AI-POWERED CYBER THREAT INTELLIGENCE
+  </div>
+  <h1 class="hero-h1">DETECT.<br><span>ANALYZE.</span><br>PROTECT.</h1>
+  <p class="hero-sub">SentinelAI uses a multi-agent AI pipeline to analyze suspicious URLs and emails in real-time — before they cause damage.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="scrollTo('analyzer')">RUN ANALYSIS</button>
+    <button class="btn-ghost" onclick="scrollTo('how')">SEE HOW IT WORKS</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">AI AGENTS</div></div>
+    <div class="stat"><div class="stat-num">&lt;5s</div><div class="stat-label">SCAN TIME</div></div>
+    <div class="stat"><div class="stat-num">100</div><div class="stat-label">RISK SCALE</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">THREAT TYPES</div></div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-eyebrow">— HOW IT WORKS</div>
+  <h2 class="section-h2">Multi-Agent Threat<br>Detection Pipeline</h2>
+  <p class="section-desc">Five specialized AI agents work in sequence to evaluate every input — from raw URL parsing to final security recommendations.</p>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="step-title">User Input</div>
+      <div class="step-text">Paste any suspicious URL or email content. The system auto-detects input type.</div>
+      <div class="step-accent"></div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div class="step-title">AI Analysis</div>
+      <div class="step-text">Agents inspect domain structure, phishing keywords, brand impersonation, and blacklist status.</div>
+      <div class="step-accent"></div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="step-title">Risk Score</div>
+      <div class="step-text">All signals are aggregated into a threat score from 0–100 with a risk classification.</div>
+      <div class="step-accent"></div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="step-title">You're Protected</div>
+      <div class="step-text">Clear security advice tells you exactly what to do next to stay safe.</div>
+      <div class="step-accent"></div>
+    </div>
+  </div>
+
+  <!-- Pipeline viz -->
+  <div class="pipeline-wrap" style="margin-top:40px">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:20px">AGENT PIPELINE VISUALIZATION</div>
+    <div class="pipeline" id="pipe">
+      <div class="p-node" id="pn0">
+        <div class="p-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="p-label">INPUT<br>AGENT</div>
+      </div>
+      <div class="p-node" id="pn1">
+        <div class="p-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <div class="p-label">URL<br>ANALYZER</div>
+      </div>
+      <div class="p-node" id="pn2">
+        <div class="p-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="p-label">PHISHING<br>DETECTOR</div>
+      </div>
+      <div class="p-node" id="pn3">
+        <div class="p-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="p-label">RISK<br>SCORER</div>
+      </div>
+      <div class="p-node" id="pn4">
+        <div class="p-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="p-label">RECOMMEND<br>ENGINE</div>
+      </div>
+    </div>
+    <button class="pipe-demo-btn" onclick="demoPipeline()">▶ DEMO PIPELINE</button>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THREAT TYPES -->
+<section class="section" id="threats">
+  <div class="section-eyebrow">— WHAT WE DETECT</div>
+  <h2 class="section-h2">Threat Categories</h2>
+  <p class="section-desc">SentinelAI identifies the most common and dangerous forms of cyber threats targeting everyday users.</p>
+  <div class="threat-grid">
+    <div class="threat-card">
+      <div class="threat-icon ti-red">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="threat-name">Phishing URLs</div>
+        <div class="threat-desc">Fake domains that mimic trusted brands — PayPal, Amazon, Google — to steal credentials.</div>
+      </div>
+    </div>
+    <div class="threat-card">
+      <div class="threat-icon ti-warn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div>
+        <div class="threat-name">Phishing Emails</div>
+        <div class="threat-desc">Urgency-driven email scams with fake sender domains, spoofed logos, and malicious links.</div>
+      </div>
+    </div>
+    <div class="threat-card">
+      <div class="threat-icon ti-red">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div>
+        <div class="threat-name">Brand Impersonation</div>
+        <div class="threat-desc">Sites or emails pretending to be official companies to extract personal or financial data.</div>
+      </div>
+    </div>
+    <div class="threat-card">
+      <div class="threat-icon ti-blue">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <div>
+        <div class="threat-name">Suspicious Domains</div>
+        <div class="threat-desc">Newly registered, typosquatted, or obfuscated domains designed to look legitimate.</div>
+      </div>
+    </div>
+    <div class="threat-card">
+      <div class="threat-icon ti-warn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div>
+        <div class="threat-name">Social Engineering</div>
+        <div class="threat-desc">Manipulative language patterns — urgency, fear, authority — used to pressure users into action.</div>
+      </div>
+    </div>
+    <div class="threat-card">
+      <div class="threat-icon ti-red">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div>
+        <div class="threat-name">Credential Harvesting</div>
+        <div class="threat-desc">Fake login pages cloning real sites to intercept usernames, passwords, and 2FA codes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LIVE ANALYZER -->
+<section class="section" id="analyzer">
+  <div class="section-eyebrow">— LIVE ANALYZER</div>
+  <h2 class="section-h2">Analyze Any Threat<br>Right Now</h2>
+  <p class="section-desc">Paste a suspicious URL or email below. The AI agent pipeline will run a full analysis and return a threat report.</p>
+  <div class="analyzer-wrap">
+    <div class="analyzer-header">
+      <div class="traffic-dots"><div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div></div>
+      <div class="analyzer-title">SENTINELAI — THREAT ANALYZER v1.0</div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--safe)"></div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--safe)">ONLINE</span>
+      </div>
+    </div>
+    <div class="analyzer-body">
+      <div class="mode-row">
+        <button class="mtab on" id="m0" onclick="setM('url')">URL MODE</button>
+        <button class="mtab" id="m1" onclick="setM('email')">EMAIL MODE</button>
+      </div>
+      <textarea class="ainput" id="mainInput" placeholder="Paste suspicious URL here...&#10;e.g. https://amazon-login-security-update.verify-account.net" rows="4"></textarea>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;margin-bottom:2px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px">TRY:</span>
+        <span class="sample-link" onclick="fillSample('https://amazon-login-security-update.verify-account.net')">amazon-phishing</span>
+        <span class="sample-link" onclick="fillSample('https://paypal-secure-verify.account-login.co')">paypal-fake</span>
+        <span class="sample-link" onclick="fillSample('https://google.com')">google.com</span>
+      </div>
+      <div class="scan-row">
+        <button class="scan-btn" id="mainBtn" onclick="mainAnalyze()">ANALYZE THREAT</button>
+        <button class="clear-btn" onclick="clearAll()">CLEAR</button>
+      </div>
+    </div>
+
+    <div id="agentSection" style="display:none;padding:0 24px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:8px">AGENT PIPELINE — RUNNING</div>
+      <div class="agent-mini" id="agentMini"></div>
+    </div>
+
+    <div id="resultSection" style="padding:0 24px 24px"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-eyebrow">— CAPABILITIES</div>
+  <h2 class="section-h2">Built for Real<br>Threat Detection</h2>
+  <p class="section-desc">Every component of SentinelAI is purpose-built for accurate, fast, explainable threat intelligence.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="1.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+      </div>
+      <div class="feat-title">Multi-Agent AI</div>
+      <div class="feat-text">5 specialized agents each handle a distinct part of the analysis — no single point of failure.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="feat-title">Real-Time Scoring</div>
+      <div class="feat-text">Risk score computed live from domain signals, phishing patterns, and blacklist hits.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="feat-title">Explainable Results</div>
+      <div class="feat-text">Every threat flag is explained in plain language — not just a score, but the why behind it.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div class="feat-title">Email Analysis</div>
+      <div class="feat-text">Detect urgency language, sender spoofing, and social engineering patterns in email content.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      </div>
+      <div class="feat-title">Mobile Friendly</div>
+      <div class="feat-text">Fully responsive — users can analyze threats from any device, anytime.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="feat-title">Actionable Advice</div>
+      <div class="feat-text">Each report ends with specific recommended actions — no ambiguity, no jargon.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:3px;margin-bottom:16px">— STAY SECURE</div>
+  <h2 class="cta-h">Don't Click.<br><span style="color:var(--accent)">Verify First.</span></h2>
+  <p class="cta-sub">Every phishing attempt counts on you acting fast. SentinelAI gives you the intelligence to pause and verify — in under 5 seconds.</p>
+  <button class="btn-primary" onclick="scrollTo('analyzer')" style="font-size:16px;padding:14px 36px">ANALYZE A THREAT NOW</button>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="foot-logo">⬡ SENTINELAI</div>
+  <div class="foot-copy">CYBER THREAT INTELLIGENCE — HACKATHON BUILD 2025</div>
+</footer>
+
+<style>
+.sample-link{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);cursor:pointer;padding:3px 8px;border:1px solid rgba(0,229,255,0.2);border-radius:4px;transition:all .2s}
+.sample-link:hover{background:rgba(0,229,255,0.08)}
+</style>
+
+<script>
+let amode='url';
+function scrollTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'})}
+function setM(m){
+  amode=m;
+  document.getElementById('m0').classList.toggle('on',m==='url');
+  document.getElementById('m1').classList.toggle('on',m==='email');
+  document.getElementById('mainInput').placeholder=m==='url'?'Paste suspicious URL here...\ne.g. https://amazon-login-security-update.verify-account.net':'Paste email content here...\nInclude subject, sender, and body text...';
+}
+function fillSample(s){document.getElementById('mainInput').value=s}
+function clearAll(){
+  document.getElementById('mainInput').value='';
+  document.getElementById('agentSection').style.display='none';
+  document.getElementById('resultSection').innerHTML='';
+}
+
+const AGENT_LIST=[
+  'INPUT_AGENT · Sanitizing input',
+  'URL_ANALYZER · Parsing domain structure',
+  'PHISHING_DETECTOR · Pattern matching',
+  'RISK_SCORER · Aggregating signals',
+  'REC_ENGINE · Generating advice'
+];
+
+function buildMiniAgents(){
+  const el=document.getElementById('agentMini');
+  el.innerHTML='';
+  AGENT_LIST.forEach((a,i)=>{
+    if(i>0)el.innerHTML+=`<div class="am-conn"></div>`;
+    el.innerHTML+=`<div class="am-row" id="amr${i}">
+      <div class="am-dot"></div>
+      <span class="am-name">${a}</span>
+      <span class="am-st" id="amst${i}">STANDBY</span>
+    </div>`;
+  });
+}
+
+async function runAgents(onDone){
+  document.getElementById('agentSection').style.display='block';
+  buildMiniAgents();
+  for(let i=0;i<AGENT_LIST.length;i++){
+    const r=document.getElementById(`amr${i}`);
+    const s=document.getElementById(`amst${i}`);
+    r.classList.add('alit');
+    s.innerHTML='<div class="ldots"><span></span><span></span><span></span></div>';
+    await new Promise(res=>setTimeout(res,i===3?1100:650));
+    r.classList.remove('alit');r.classList.add('adone');
+    s.textContent='✓ DONE';
+  }
+  if(onDone)onDone();
+}
+
+function scoreCol(s){return s>=61?'var(--danger)':s>=31?'var(--warn)':'var(--safe)'}
+function riskLbl(s){return s>=61?'HIGH RISK':s>=31?'SUSPICIOUS':'SAFE'}
+function riskCls(s){return s>=61?'rb-high':s>=31?'rb-warn':'rb-safe'}
+
+async function mainAnalyze(){
+  const input=document.getElementById('mainInput').value.trim();
+  if(!input)return;
+  const btn=document.getElementById('mainBtn');
+  btn.disabled=true;
+  document.getElementById('resultSection').innerHTML='';
+  runAgents(async()=>{
+    try{
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1000,
+          system:`You are a cybersecurity threat analysis AI. Analyze the given input for phishing and malicious patterns.
+Respond ONLY with valid JSON, no markdown, no backticks, no preamble:
+{"threat_score":<0-100>,"risk_level":"<SAFE|SUSPICIOUS|HIGH RISK>","reasons":[{"text":"<reason>","severity":"<low|medium|high>"}],"recommendations":[{"text":"<action>","type":"<avoid|do>"}],"domain_info":"<brief 1-line domain or sender analysis>"}`,
+          messages:[{role:'user',content:`Analyze this ${amode==='url'?'URL':'email content'}: ${input}`}]
+        })
+      });
+      const data=await res.json();
+      const raw=data.content?.find(b=>b.type==='text')?.text||'{}';
+      const r=JSON.parse(raw.replace(/```json|```/g,'').trim());
+      renderResult(r);
+    }catch(e){
+      document.getElementById('resultSection').innerHTML=`<div class="error-box">⚠ Analysis error: ${e.message}</div>`;
+    }finally{btn.disabled=false}
+  });
+}
+
+function renderResult(r){
+  const s=r.threat_score||0;
+  const col=scoreCol(s);
+  const reasons=r.reasons||[];
+  const recs=r.recommendations||[];
+  const pct=Math.min(100,s);
+  document.getElementById('resultSection').innerHTML=`
+    <div style="height:1px;background:var(--border);margin-bottom:20px"></div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:16px;padding:0">THREAT REPORT — COMPLETE</div>
+    <div class="results-grid">
+      <div class="score-col">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px">THREAT SCORE</div>
+        <div class="score-big" style="color:${col}">${s}</div>
+        <div class="score-denom">/ 100</div>
+        <div class="meter-bar"><div class="meter-fill" style="width:${pct}%;background:${col}"></div></div>
+        <div class="rbadge ${riskCls(s)}" style="margin-top:10px">${riskLbl(s)}</div>
+        ${r.domain_info?`<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5">${r.domain_info}</div>`:''}
+      </div>
+      <div class="detail-col">
+        <div class="detail-section">Detection Reasons</div>
+        ${reasons.map(x=>`<div class="r-card${x.severity==='high'?' rh':x.severity==='low'?' rs':''}">
+          <span style="color:${x.severity==='high'?'var(--danger)':x.severity==='low'?'var(--safe)':'var(--warn)'};flex-shrink:0">⚠</span>
+          ${x.text}
+        </div>`).join('')}
+        <div class="detail-section" style="margin-top:8px">Recommended Actions</div>
+        ${recs.map(x=>`<div class="rec-card">
+          <span class="${x.type==='avoid'?'rec-avoid':'rec-do'}">${x.type==='avoid'?'✕':'✓'}</span>
+          ${x.text}
+        </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// Pipeline demo
+async function demoPlugin(id,cls,delay){
+  await new Promise(r=>setTimeout(r,delay));
+  const el=document.getElementById(id);
+  el.classList.add('lit');
+  await new Promise(r=>setTimeout(r,800));
+  el.classList.remove('lit');el.classList.add('done');
+}
+async function demoP(){
+  ['pn0','pn1','pn2','pn3','pn4'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.classList.remove('lit','done');
+  });
+  for(let i=0;i<5;i++){
+    const el=document.getElementById(`pn${i}`);
+    el.classList.add('lit');
+    await new Promise(r=>setTimeout(r,700));
+    el.classList.remove('lit');el.classList.add('done');
+  }
+}
+function demoP_svg_icon(el,c){const paths=el.querySelectorAll('path,circle,line,polyline,rect');paths.forEach(p=>p.setAttribute('stroke',c))}
+function demoP_reset(){}
+async function demoP_run(){
+  const nodes=['pn0','pn1','pn2','pn3','pn4'];
+  nodes.forEach(id=>{const el=document.getElementById(id);el.classList.remove('lit','done')});
+  for(let i=0;i<5;i++){
+    const el=document.getElementById(`pn${i}`);
+    el.classList.add('lit');
+    await new Promise(r=>setTimeout(r,600));
+    el.classList.remove('lit');el.classList.add('done');
+  }
+}
+function demoP2(){demoP_run()}
+document.querySelector('.pipe-demo-btn').onclick=demoP2;
+</script>
