@@ -331,8 +331,8 @@ export const AnalyzerSection = ({ analyzer }: AnalyzerSectionProps) => {
                       <div className="sc-name">VIRUSTOTAL</div>
                       <div className="sc-icon">{result.api_results?.virustotal?.malicious_count > 0 ? <span style={{ color: 'var(--danger)' }}>⚠️</span> : <span style={{ color: 'var(--safe)' }}>✓</span>}</div>
                     </div>
-                    <div className="sc-val" style={{ fontSize: '18px', color: result.api_results?.virustotal?.malicious_count > 0 ? 'var(--danger)' : '#fff' }}>
-                      {result.api_results?.virustotal?.malicious_count > 0 ? `${result.api_results.virustotal.malicious_count} Flags` : 'Clean'}
+                    <div className="sc-val" style={{ fontSize: '18px', color: (result.api_results?.virustotal?.malicious_count ?? 0) > 0 ? 'var(--danger)' : '#fff' }}>
+                      {(result.api_results?.virustotal?.malicious_count ?? 0) > 0 ? `${result.api_results?.virustotal?.malicious_count} Flags` : 'Clean'}
                     </div>
                   </div>
 
