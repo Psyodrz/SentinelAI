@@ -17,7 +17,11 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],  # Next.js frontend
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:3001",
+        "https://sentinel-ai-official.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
