@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+﻿import { useState, useCallback, useRef, useEffect } from 'react';
 import { 
   ThreatReport, 
   InputMode, 
@@ -11,14 +11,14 @@ import { API_ENDPOINTS, ERROR_MESSAGES, ANIMATION_DURATIONS } from '@/lib/consta
 
 // Agent definitions with icons and descriptions
 const AGENT_DEFINITIONS = [
-  { name: 'Input Validation', desc: 'Parsing and validating input format...', icon: '◈' },
-  { name: 'DNS & WHOIS', desc: 'Resolving domain records and registration data...', icon: '◉' },
-  { name: 'SSL & Headers', desc: 'Checking certificate validity and security headers...', icon: '◎' },
-  { name: 'Content Analysis', desc: 'Scanning page content for phishing indicators...', icon: '◇' },
-  { name: 'Threat Intel', desc: 'Querying VirusTotal, Safe Browsing, IP databases...', icon: '◆' },
-  { name: 'AI Phishing Scan', desc: 'Running Gemini AI deep phishing analysis...', icon: '◈' },
-  { name: 'Risk Scoring', desc: 'Computing composite threat score...', icon: '◉' },
-  { name: 'Report Generation', desc: 'Generating security briefing and recommendations...', icon: '◎' },
+  { name: 'Input Validation', desc: 'Parsing and validating input format...', icon: 'â—ˆ' },
+  { name: 'DNS & WHOIS', desc: 'Resolving domain records and registration data...', icon: 'â—‰' },
+  { name: 'SSL & Headers', desc: 'Checking certificate validity and security headers...', icon: 'â—Ž' },
+  { name: 'Content Analysis', desc: 'Scanning page content for phishing indicators...', icon: 'â—‡' },
+  { name: 'Threat Intel', desc: 'Querying VirusTotal, Safe Browsing, IP databases...', icon: 'â—†' },
+  { name: 'AI Phishing Scan', desc: 'Running Gemini AI deep phishing analysis...', icon: 'â—ˆ' },
+  { name: 'Risk Scoring', desc: 'Computing composite threat score...', icon: 'â—‰' },
+  { name: 'Report Generation', desc: 'Generating security briefing and recommendations...', icon: 'â—Ž' },
 ];
 
 interface UseAnalyzerReturn {
@@ -96,7 +96,7 @@ export function useAnalyzer(): UseAnalyzerReturn {
       agents[i] = { ...agents[i], status: 'processing' };
       setProgress({ ...prog, activeAgent: i, agents: [...agents] });
       setActiveAgent(i);
-      addLog(`▶ ${AGENT_DEFINITIONS[i].name}: ${AGENT_DEFINITIONS[i].desc}`);
+      addLog(`â–¶ ${AGENT_DEFINITIONS[i].name}: ${AGENT_DEFINITIONS[i].desc}`);
 
       // Wait 800-1500ms per agent (realistic stagger)
       const delay = 800 + Math.random() * 700;
@@ -107,7 +107,7 @@ export function useAnalyzer(): UseAnalyzerReturn {
       // Mark as completed
       agents[i] = { ...agents[i], status: 'completed' };
       setProgress({ ...prog, activeAgent: i, agents: [...agents] });
-      addLog(`✓ ${AGENT_DEFINITIONS[i].name} — Complete`);
+      addLog(`âœ“ ${AGENT_DEFINITIONS[i].name} â€” Complete`);
     }
   }, [addLog]);
 
@@ -146,7 +146,7 @@ export function useAnalyzer(): UseAnalyzerReturn {
     }
   }, [inputValue]);
 
-  // Run full analysis — animation runs IN PARALLEL with backend call
+  // Run full analysis â€” animation runs IN PARALLEL with backend call
   const runAnalysis = useCallback(async () => {
     if (!inputValue.trim()) {
       setError(ERROR_MESSAGES.INVALID_INPUT);
@@ -160,17 +160,17 @@ export function useAnalyzer(): UseAnalyzerReturn {
     setQuickResult(null);
     setElapsedTime(0);
     setScanLog([]);
-    addLog('⬡ SentinelAI Threat Pipeline Initiated');
-    addLog(`◈ Target: ${inputValue.trim()}`);
-    addLog(`◈ Mode: ${inputMode.toUpperCase()}`);
-    addLog('─'.repeat(40));
+    addLog('â¬¡ SentinelAI Threat Pipeline Initiated');
+    addLog(`â—ˆ Target: ${inputValue.trim()}`);
+    addLog(`â—ˆ Mode: ${inputMode.toUpperCase()}`);
+    addLog('â”€'.repeat(40));
 
     try {
       abortControllerRef.current = new AbortController();
 
       // Start animation AND backend call in parallel
       const animationPromise = runAgentAnimation();
-      const fetchPromise = fetch('http://localhost:8000/api/analyze', {
+      const fetchPromise = fetch('https://sentinelai-backend-omega.vercel.app/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ input: inputValue.trim(), mode: inputMode }),
@@ -189,9 +189,9 @@ export function useAnalyzer(): UseAnalyzerReturn {
 
       // Stop animation and mark all agents complete
       animationRef.current = false;
-      addLog('─'.repeat(40));
-      addLog(`✓ Analysis complete — Score: ${data.threat_score}/100`);
-      addLog(`✓ Risk Level: ${data.risk_level}`);
+      addLog('â”€'.repeat(40));
+      addLog(`âœ“ Analysis complete â€” Score: ${data.threat_score}/100`);
+      addLog(`âœ“ Risk Level: ${data.risk_level}`);
 
       // Short delay for final animation frame
       await new Promise(r => setTimeout(r, 400));
@@ -217,7 +217,7 @@ export function useAnalyzer(): UseAnalyzerReturn {
       animationRef.current = false;
       if (err instanceof Error && err.name === 'AbortError') return;
       const errorMessage = err instanceof Error ? err.message : ERROR_MESSAGES.UNKNOWN_ERROR;
-      addLog(`✕ ERROR: ${errorMessage}`);
+      addLog(`âœ• ERROR: ${errorMessage}`);
       setError(errorMessage);
       setAnalysisState('error');
       setResult(null);
@@ -258,3 +258,4 @@ export function useAnalyzer(): UseAnalyzerReturn {
     clearAnalysis, clearError,
   };
 }
+
